@@ -41,6 +41,18 @@ commander
 							chalk.red(`The ${projectName} project template already exist`)
 						);
 					} else {
+						if (fs.existsSync(`./${projectName}/package.json`)) {
+							const packageJson = JSON.parse(
+							  fs.readFileSync(`./${projectName}/package.json`, "utf-8")
+							);
+							packageJson.name = projectName;
+							packageJson.version = "0.0.1";
+							fs.writeFileSync(
+							  `./${projectName}/package.json`,
+							  JSON.stringify(packageJson, null, 2),
+							  "utf-8"
+							);
+						}
 						if (fs.existsSync(`./${projectName}/.git/config`)) {
 							exec('git remote rm origin', { cwd: `./${projectName}` });
 							console.log(
